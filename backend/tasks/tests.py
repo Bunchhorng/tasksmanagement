@@ -5,6 +5,20 @@ from .models import Task
 URL = '/api/tasks/'
 
 
+class HealthEndpointTests(APITestCase):
+    def test_root_responds_to_uptime_monitor_head_request(self):
+        response = self.client.head('/')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers['Content-Type'], 'application/json')
+
+    def test_explicit_health_endpoint_returns_ready_status(self):
+        response = self.client.get('/healthz/')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json(), {'status': 'ok'})
+
+
 class TaskApiTests(APITestCase):
     def test_create_with_defaults(self):
         res = self.client.post(URL, {'title': 'Buy milk'}, format='json')

@@ -39,6 +39,8 @@ The root `render.yaml` is a Render Blueprint for this monorepo. In Render:
 2. Enter the Neon pooled URL for `DATABASE_URL` when Render prompts for it. Render generates `DJANGO_SECRET_KEY` automatically.
 3. Once deployed, open `https://YOUR-RENDER-SERVICE.onrender.com/healthz/`. It should return `{"status":"ok"}`.
 
+For UptimeRobot, monitor `https://YOUR-RENDER-SERVICE.onrender.com/healthz/` with either a GET or HEAD request. The service root also returns this health response so existing root-URL monitors continue to work.
+
 The Blueprint installs dependencies, collects Django admin static files, applies migrations, and starts Gunicorn. It pins the API runtime through `backend/.python-version`.
 
 After Cloudflare Pages is deployed, change these Render environment variables and redeploy the API:
